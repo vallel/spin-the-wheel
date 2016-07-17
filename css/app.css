@@ -1,0 +1,57 @@
+body {
+    background: url('../img/seogirlsbckg.png');
+}
+
+#canvas {
+    display: block;
+    margin: 10px auto;
+}
+
+#buttons {
+    margin: 10px auto;
+    width: 500px;
+}
+
+#buttons .btn {
+    width: 49%;
+}
+
+.optionElement {
+    width: 50%;
+}
+
+#optionsList {
+    list-style: none;
+    margin: 5px;
+    padding: 0;
+}
+
+.optionElement {
+    margin: 2px 0;
+}
+
+.removeOptionElementBtn {
+    margin-right: 5px;
+}
+
+.vertical-alignment-helper {
+    display:table;
+    height: 100%;
+    width: 100%;
+    pointer-events:none;
+}
+.vertical-align-center {
+    /* To center vertically */
+    display: table-cell;
+    vertical-align: middle;
+    pointer-events:none;
+}
+
+.modal-content {
+    /* Bootstrap sets the size of the modal in the modal-dialog class, we need to inherit it */
+    width:inherit;
+    height:inherit;
+    /* To center horizontally */
+    margin: 0 auto;
+    pointer-events:all;
+}
