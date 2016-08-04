@@ -217,6 +217,9 @@ var app = {};
     app.init = function () {
         drawRouletteWheel();
         eventWiring();
+
+        app.options.init();
+        app.configUi.init();
     };
 
     function eventWiring() {
@@ -229,6 +232,7 @@ var app = {};
         });
         $('#optionsList').on('click', '.removeOptionElementBtn', removeOptionFromList);
         $('#saveOptionsBtn').click(saveOptions);
+
     }
 
 }());
