@@ -22,6 +22,20 @@ body {
     border-bottom: 1px solid #e7e7e7;
 }
 
+.option-color-display {
+    display: inline-block;
+    width: 16px;
+    height: 16px;
+}
+
+.option-color-value {
+    padding: 6px;
+}
+
+.delete-option-btn {
+    margin-right: 4px;
+}
+
 .config-btn {
     margin: 10px
 }
