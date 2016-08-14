@@ -1,5 +1,6 @@
 import {Component} from "@angular/core";
 import {OptionService, Option} from "./option.service";
+import {ColorPickerDirective} from 'angular2-color-picker/app/color-picker/color-picker.directive'
 
 @Component({
     selector: 'options-table',
@@ -20,7 +21,7 @@ import {OptionService, Option} from "./option.service";
                     </td>
                     <td width="130">
                         <span *ngIf="editModeRow != i" class="option-color-display" [ngStyle]="{'background-color': option.color}"></span>
-                        <button *ngIf="editModeRow == i" class="btn" colorpicker="hex"  type="button"><span class="option-color-display-sm" [ngStyle]="{'background-color': option.color}"></span></button>
+                        <button *ngIf="editModeRow == i" class="btn" [(colorPicker)]="option.color" [value]="option.color" [cpPosition]="'bottom'" type="button"><span class="option-color-display-sm" [ngStyle]="{'background-color': option.color}"></span></button>
                     </td>
                     <td width="100">
                         <button *ngIf="editModeRow != i" class="btn delete-option-btn pull-left" (click)="onDelete(option, i)"><span class="glyphicon glyphicon-trash"></span></button>
@@ -32,12 +33,14 @@ import {OptionService, Option} from "./option.service";
             </tbody>
         </table>
     `,
-    providers: [OptionService]
+    providers: [OptionService],
+    directives: [ColorPickerDirective]
 })
 
 export class OptionsTableComponent {
     options: Option[];
     editModeRow = null;
+    previousEditRowValues = null;
 
     constructor(optionService: OptionService) {
         this.options = optionService.getOptions();
@@ -55,14 +58,22 @@ export class OptionsTableComponent {
     }
 
     onEdit(index: number) {
-        this.editModeRow = index;
+        this.turnOnEditRowMode(index);
     }
 
     onSave() {
-        this.editModeRow = null;
+        this.turnOffEditMode();
     }
 
     onCancelEdit() {
+        this.turnOffEditMode();
+    }
+
+    private turnOnEditRowMode(index: number) {
+        this.editModeRow = index;
+    }
+
+    private turnOffEditMode() {
         this.editModeRow = null;
     }
 }
