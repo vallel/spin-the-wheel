@@ -9,7 +9,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 var core_1 = require('@angular/core');
-var optionsTable_component_1 = require("./optionsTable.component");
+var options_table_component_1 = require("./options-table.component");
 var ConfigPanelComponent = (function () {
     function ConfigPanelComponent() {
     }
@@ -17,11 +17,11 @@ var ConfigPanelComponent = (function () {
         core_1.Component({
             selector: 'config-panel',
             template: "\n        <section class=\"config-section\">\n            <h3 class=\"config-title\">Configurar ruleta</h3>\n            \n            <options-table></options-table>\n        </section>\n    ",
-            directives: [optionsTable_component_1.OptionsTableComponent]
+            directives: [options_table_component_1.OptionsTableComponent]
         }), 
         __metadata('design:paramtypes', [])
     ], ConfigPanelComponent);
     return ConfigPanelComponent;
 }());
 exports.ConfigPanelComponent = ConfigPanelComponent;
-//# sourceMappingURL=configPanel.component.js.map
+//# sourceMappingURL=config-panel.component.js.map

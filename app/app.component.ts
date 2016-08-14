@@ -1,5 +1,5 @@
 import {Component} from '@angular/core';
-import {ConfigPanelComponent} from "./configPanel.component";
+import {ConfigPanelComponent} from "./config-panel.component";
 
 @Component({
     selector: 'my-app',

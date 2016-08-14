@@ -28,11 +28,17 @@ body {
     height: 16px;
 }
 
+.option-color-display-sm {
+    display: inline-block;
+    width: 14px;
+    height: 14px;
+}
+
 .option-color-value {
     padding: 6px;
 }
 
-.delete-option-btn {
+.delete-option-btn, .save-option-btn {
     margin-right: 4px;
 }
 

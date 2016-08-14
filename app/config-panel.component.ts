@@ -1,5 +1,5 @@
 import {Component} from '@angular/core';
-import {OptionsTableComponent} from "./optionsTable.component";
+import {OptionsTableComponent} from "./options-table.component";
 
 @Component({
     selector: 'config-panel',

@@ -9,7 +9,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 var core_1 = require('@angular/core');
-var configPanel_component_1 = require("./configPanel.component");
+var config_panel_component_1 = require("./config-panel.component");
 var AppComponent = (function () {
     function AppComponent() {
     }
@@ -17,7 +17,7 @@ var AppComponent = (function () {
         core_1.Component({
             selector: 'my-app',
             template: '<config-panel></config-panel>',
-            directives: [configPanel_component_1.ConfigPanelComponent]
+            directives: [config_panel_component_1.ConfigPanelComponent]
         }), 
         __metadata('design:paramtypes', [])
     ], AppComponent);

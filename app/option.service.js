@@ -1,6 +1,8 @@
 "use strict";
 var Option = (function () {
-    function Option() {
+    function Option(name, color) {
+        this.name = name;
+        this.color = color;
     }
     return Option;
 }());

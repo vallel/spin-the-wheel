@@ -1,1 +1,0 @@
-{"version":3,"file":"configPanel.component.js","sourceRoot":"","sources":["configPanel.component.ts"],"names":[],"mappings":";;;;;;;;;;AAAA,qBAAwB,eAAe,CAAC,CAAA;AACxC,uCAAoC,0BAA0B,CAAC,CAAA;AAc/D;IAAA;IAEA,CAAC;IAdD;QAAC,gBAAS,CAAC;YACP,QAAQ,EAAE,cAAc;YACxB,QAAQ,EAAE,kMAMT;YACD,UAAU,EAAE,CAAC,8CAAqB,CAAC;SACtC,CAAC;;4BAAA;IAIF,2BAAC;AAAD,CAAC,AAFD,IAEC;AAFY,4BAAoB,uBAEhC,CAAA"}
