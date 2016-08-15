@@ -10,15 +10,41 @@ exports.Option = Option;
 var OptionService = (function () {
     function OptionService() {
     }
+    /**
+     * @returns {Option[]}
+     */
     OptionService.prototype.getOptions = function () {
-        return [
-            { name: 'Testing 1', color: '#334355' },
-            { name: 'Hola que hace', color: '#6621ae' },
-            { name: 'Ola k ace', color: '#ae549f' },
-            { name: 'Trolololololo lolo lo', color: '#04fe32' }
-        ];
+        var jsonOptions = JSON.parse(localStorage.getItem('options')), options = [];
+        if (jsonOptions) {
+            for (var i = 0; i < jsonOptions.length; i++) {
+                var name_1 = jsonOptions[i].name, color = jsonOptions[i].color;
+                options.push(new Option(name_1, color));
+            }
+        }
+        return options;
     };
-    OptionService.prototype.saveOption = function (id, option) {
+    /**
+     * @param {int} index
+     * @param {Option} option
+     */
+    OptionService.prototype.saveOption = function (index, option) {
+        var options = this.getOptions();
+        options[index] = option;
+        this.saveOptions(options);
+    };
+    /**
+     * @param {Option[]} options
+     */
+    OptionService.prototype.saveOptions = function (options) {
+        localStorage.setItem('options', JSON.stringify(options));
+    };
+    /**
+     * @param {int} index
+     */
+    OptionService.prototype.deleteOption = function (index) {
+        var options = this.getOptions();
+        options.splice(index, 1);
+        this.saveOptions(options);
     };
     return OptionService;
 }());

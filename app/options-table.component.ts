@@ -26,7 +26,7 @@ import {ColorPickerDirective} from './color-picker/color-picker.directive'
                     <td width="100">
                         <button *ngIf="editModeRow != i" class="btn delete-option-btn pull-left" (click)="onDelete(option, i)"><span class="glyphicon glyphicon-trash"></span></button>
                         <button *ngIf="editModeRow != i" class="btn edit-option-btn pull-left" (click)="onEdit(i)"><span class="glyphicon glyphicon-pencil"></span></button>
-                        <button *ngIf="editModeRow == i" class="btn save-option-btn pull-left" (click)="onSave()"><span class="glyphicon glyphicon-floppy-disk"></span></button>
+                        <button *ngIf="editModeRow == i" class="btn save-option-btn pull-left" (click)="onSave(i, option)"><span class="glyphicon glyphicon-floppy-disk"></span></button>
                         <button *ngIf="editModeRow == i" class="btn cancel-option-btn pull-left" (click)="onCancelEdit()"><span class="glyphicon glyphicon glyphicon-remove"></span></button>
                     </td>
                 </tr>
@@ -42,8 +42,8 @@ export class OptionsTableComponent {
     editModeRow = null;
     previousEditRowValues = null;
 
-    constructor(optionService: OptionService) {
-        this.options = optionService.getOptions();
+    constructor(private optionService: OptionService) {
+        this.options = this.optionService.getOptions();
     }
 
     addNewOption() {
@@ -53,8 +53,8 @@ export class OptionsTableComponent {
 
     onDelete(option: Option, index: number) {
         if (confirm('¿Esta seguro de borrar la opción "'+ option.name +'"?')) {
-            this.options.splice(index, 1);
-            // delete option
+            this.optionService.deleteOption(index);
+            this.options = this.optionService.getOptions();
         }
     }
 
@@ -63,8 +63,8 @@ export class OptionsTableComponent {
         this.turnOnEditRowMode(index);
     }
 
-    onSave() {
-        // save edited option
+    onSave(index: number, option: Option) {
+        this.optionService.saveOption(index, option);
         this.turnOffEditMode();
     }
 
