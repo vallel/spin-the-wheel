@@ -1,6 +1,6 @@
 import {Component} from "@angular/core";
 import {OptionService, Option} from "./option.service";
-import {ColorPickerDirective} from 'angular2-color-picker/app/color-picker/color-picker.directive'
+import {ColorPickerDirective} from './color-picker/color-picker.directive'
 
 @Component({
     selector: 'options-table',
@@ -54,26 +54,43 @@ export class OptionsTableComponent {
     onDelete(option: Option, index: number) {
         if (confirm('¿Esta seguro de borrar la opción "'+ option.name +'"?')) {
             this.options.splice(index, 1);
+            // delete option
         }
     }
 
     onEdit(index: number) {
+        this.restorePreviousValues();
         this.turnOnEditRowMode(index);
     }
 
     onSave() {
+        // save edited option
         this.turnOffEditMode();
     }
 
     onCancelEdit() {
+        this.restorePreviousValues();
         this.turnOffEditMode();
     }
 
     private turnOnEditRowMode(index: number) {
+        let currentOption = this.options[index];
+        this.previousEditRowValues = {
+            name: currentOption.name,
+            color: currentOption.color
+        };
         this.editModeRow = index;
     }
 
     private turnOffEditMode() {
         this.editModeRow = null;
+        this.previousEditRowValues = null;
+    }
+
+    private restorePreviousValues() {
+        if (this.previousEditRowValues != null && this.editModeRow != null) {
+            this.options[this.editModeRow] = new Option(this.previousEditRowValues.name, this.previousEditRowValues.color);
+            this.previousEditRowValues = null;
+        }
     }
 }

@@ -10,7 +10,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 var core_1 = require("@angular/core");
 var option_service_1 = require("./option.service");
-var color_picker_directive_1 = require('angular2-color-picker/app/color-picker/color-picker.directive');
+var color_picker_directive_1 = require('./color-picker/color-picker.directive');
 var OptionsTableComponent = (function () {
     function OptionsTableComponent(optionService) {
         this.editModeRow = null;
@@ -27,19 +27,34 @@ var OptionsTableComponent = (function () {
         }
     };
     OptionsTableComponent.prototype.onEdit = function (index) {
+        this.restorePreviousValues();
         this.turnOnEditRowMode(index);
     };
     OptionsTableComponent.prototype.onSave = function () {
+        // save edited option
         this.turnOffEditMode();
     };
     OptionsTableComponent.prototype.onCancelEdit = function () {
+        this.restorePreviousValues();
         this.turnOffEditMode();
     };
     OptionsTableComponent.prototype.turnOnEditRowMode = function (index) {
+        var currentOption = this.options[index];
+        this.previousEditRowValues = {
+            name: currentOption.name,
+            color: currentOption.color
+        };
         this.editModeRow = index;
     };
     OptionsTableComponent.prototype.turnOffEditMode = function () {
         this.editModeRow = null;
+        this.previousEditRowValues = null;
+    };
+    OptionsTableComponent.prototype.restorePreviousValues = function () {
+        if (this.previousEditRowValues != null && this.editModeRow != null) {
+            this.options[this.editModeRow] = new option_service_1.Option(this.previousEditRowValues.name, this.previousEditRowValues.color);
+            this.previousEditRowValues = null;
+        }
     };
     OptionsTableComponent = __decorate([
         core_1.Component({
