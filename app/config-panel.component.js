@@ -16,7 +16,7 @@ var ConfigPanelComponent = (function () {
     ConfigPanelComponent = __decorate([
         core_1.Component({
             selector: 'config-panel',
-            template: "\n        <section class=\"config-section\">\n            <h3 class=\"config-title\">Configurar ruleta</h3>\n            \n            <options-table></options-table>\n        </section>\n    ",
+            templateUrl: 'app/templates/config-section.html',
             directives: [options_table_component_1.OptionsTableComponent]
         }), 
         __metadata('design:paramtypes', [])
