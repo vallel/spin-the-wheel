@@ -46,7 +46,7 @@ body {
     margin: 10px
 }
 
-#canvas {
+.wheel-canvas {
     display: block;
     margin: 10px auto;
 }

@@ -10,14 +10,15 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 var core_1 = require('@angular/core');
 var config_panel_component_1 = require("./config-panel.component");
+var wheel_component_1 = require("./wheel.component");
 var AppComponent = (function () {
     function AppComponent() {
     }
     AppComponent = __decorate([
         core_1.Component({
             selector: 'my-app',
-            template: '<config-panel></config-panel>',
-            directives: [config_panel_component_1.ConfigPanelComponent]
+            templateUrl: 'app/templates/app.html',
+            directives: [config_panel_component_1.ConfigPanelComponent, wheel_component_1.WheelComponent]
         }), 
         __metadata('design:paramtypes', [])
     ], AppComponent);

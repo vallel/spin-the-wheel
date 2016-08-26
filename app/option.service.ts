@@ -1,3 +1,5 @@
+import { Injectable } from '@angular/core'
+
 export class Option {
     name: string;
     color: string;
@@ -8,6 +10,7 @@ export class Option {
     }
 }
 
+@Injectable()
 export class OptionService {
 
     /**
