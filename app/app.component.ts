@@ -1,10 +1,37 @@
-import {Component} from '@angular/core';
-import {ConfigPanelComponent} from "./config-panel.component";
+import {Component, OnInit} from '@angular/core';
 import {WheelComponent} from "./wheel.component";
+import {OptionService, Option} from "./option.service";
+import {OptionsTableComponent} from "./options-table.component";
 
 @Component({
     selector: 'my-app',
     templateUrl: 'app/templates/app.html',
-    directives: [ConfigPanelComponent, WheelComponent]
+    directives: [OptionsTableComponent, WheelComponent],
+    providers: [OptionService]
 })
-export class AppComponent { }
+export class AppComponent implements OnInit {
+
+    options: Option[];
+
+    showConfig = false;
+
+    ngOnInit(): void {
+        this.options = this.getOptions();
+    }
+
+    /**
+     * @param {OptionService} optionService
+     */
+    public constructor(private optionService: OptionService) { }
+
+    /**
+     * @returns {Option[]}
+     */
+    private getOptions() {
+        return this.optionService.getOptions();
+    }
+
+    public toggleConfigPanel() {
+        this.showConfig = !this.showConfig;
+    }
+}

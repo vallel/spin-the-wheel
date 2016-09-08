@@ -1,2 +1,13 @@
-<config-panel></config-panel>
-<wheel></wheel>
+<section class="config-section" *ngIf="showConfig">
+    <h3 class="config-title">Configurar ruleta</h3>
+
+    <options-table [options]="options"></options-table>
+</section>
+
+<section class="main-content">
+    <button class="config-btn btn" (click)="toggleConfigPanel()" [class.config-btn-active]="showConfig">
+        <span class="glyphicon glyphicon-cog"></span>
+    </button>
+
+    <wheel [options]="options"></wheel>
+</section>

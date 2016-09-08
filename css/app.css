@@ -13,7 +13,6 @@ body {
     background: #f8f8f8;
     z-index: 2;
     border-right: 1px solid #e7e7e7;
-    /*left: -500px;*/
 }
 
 .config-title {
@@ -43,7 +42,11 @@ body {
 }
 
 .config-btn {
-    margin: 10px
+    margin: 10px;
+}
+
+.config-btn-active {
+    margin: 10px 10px 10px 510px;
 }
 
 .wheel-canvas {

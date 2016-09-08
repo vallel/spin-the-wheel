@@ -14,9 +14,9 @@ var color_picker_directive_1 = require('./color-picker/color-picker.directive');
 var OptionsTableComponent = (function () {
     function OptionsTableComponent(optionService) {
         this.optionService = optionService;
+        this.options = [];
         this.editModeRow = null;
         this.previousEditRowValues = null;
-        this.options = this.optionService.getOptions();
     }
     OptionsTableComponent.prototype.addNewOption = function () {
         this.options.push(new option_service_1.Option('', '#fff'));
@@ -58,11 +58,14 @@ var OptionsTableComponent = (function () {
             this.previousEditRowValues = null;
         }
     };
+    __decorate([
+        core_1.Input(), 
+        __metadata('design:type', Object)
+    ], OptionsTableComponent.prototype, "options", void 0);
     OptionsTableComponent = __decorate([
         core_1.Component({
             selector: 'options-table',
             templateUrl: 'app/templates/options-table.html',
-            providers: [option_service_1.OptionService],
             directives: [color_picker_directive_1.ColorPickerDirective]
         }), 
         __metadata('design:paramtypes', [option_service_1.OptionService])

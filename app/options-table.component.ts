@@ -1,22 +1,19 @@
-import {Component} from "@angular/core";
+import {Component, Input} from "@angular/core";
 import {OptionService, Option} from "./option.service";
 import {ColorPickerDirective} from './color-picker/color-picker.directive'
 
 @Component({
     selector: 'options-table',
     templateUrl: 'app/templates/options-table.html',
-    providers: [OptionService],
     directives: [ColorPickerDirective]
 })
 
 export class OptionsTableComponent {
-    options: Option[];
+    @Input() options = [];
     editModeRow = null;
     previousEditRowValues = null;
 
-    constructor(private optionService: OptionService) {
-        this.options = this.optionService.getOptions();
-    }
+    constructor(private optionService: OptionService) { }
 
     addNewOption() {
         this.options.push(new Option('', '#fff'));

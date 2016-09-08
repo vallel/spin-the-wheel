@@ -1,16 +1,14 @@
-import {Component, ViewChild, ElementRef} from "@angular/core";
-import {Option, OptionService} from "./option.service";
+import {Component, ViewChild, ElementRef, Input, AfterViewInit} from "@angular/core";
 
 @Component({
     selector: 'wheel',
-    template: '<canvas #wheelCanvas class="wheel-canvas" width="550" height="550"></canvas>',
-    providers: [OptionService]
+    templateUrl: 'app/templates/wheel.html'
 })
 
-export class WheelComponent {
+export class WheelComponent implements AfterViewInit {
     @ViewChild('wheelCanvas') canvas: ElementRef;
 
-    options: Option[];
+    @Input() options = [];
 
     context: CanvasRenderingContext2D;
 
@@ -19,11 +17,7 @@ export class WheelComponent {
         this.drawWheel();
     }
 
-    public constructor(private optionsService: OptionService) {
-        this.options = this.optionsService.getOptions();
-    }
-
-    private drawWheel() {
+    public drawWheel() {
         let canvas = this.canvas.nativeElement;
 
         if (this.context) {
@@ -48,6 +42,15 @@ export class WheelComponent {
         }
     }
 
+    /**
+     *
+     * @param {int} index
+     * @param {int} canvasCenterX
+     * @param {int} canvasCenterY
+     * @param {int} outsideRadius
+     * @param {int} insideRadius
+     * @param {int} textRadius
+     */
     private drawRouletteElement(index, canvasCenterX, canvasCenterY, outsideRadius, insideRadius, textRadius) {
         let context = this.context,
             option = this.options[index],
@@ -71,6 +74,12 @@ export class WheelComponent {
         context.restore();
     }
 
+    /**
+     *
+     * @param {int} canvasCenterX
+     * @param {int} canvasCenterY
+     * @param {int} outsideRadius
+     */
     private drawArrow(canvasCenterX, canvasCenterY, outsideRadius) {
         let context = this.context;
 

@@ -9,11 +9,9 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 var core_1 = require("@angular/core");
-var option_service_1 = require("./option.service");
 var WheelComponent = (function () {
-    function WheelComponent(optionsService) {
-        this.optionsService = optionsService;
-        this.options = this.optionsService.getOptions();
+    function WheelComponent() {
+        this.options = [];
     }
     WheelComponent.prototype.ngAfterViewInit = function () {
         this.context = this.canvas.nativeElement.getContext("2d");
@@ -34,6 +32,15 @@ var WheelComponent = (function () {
             }
         }
     };
+    /**
+     *
+     * @param {int} index
+     * @param {int} canvasCenterX
+     * @param {int} canvasCenterY
+     * @param {int} outsideRadius
+     * @param {int} insideRadius
+     * @param {int} textRadius
+     */
     WheelComponent.prototype.drawRouletteElement = function (index, canvasCenterX, canvasCenterY, outsideRadius, insideRadius, textRadius) {
         var context = this.context, option = this.options[index], arc = Math.PI / (this.options.length / 2), angle = index * arc;
         context.fillStyle = option.color;
@@ -51,6 +58,12 @@ var WheelComponent = (function () {
         context.fillText(option.name, -context.measureText(option.name).width / 2, 0);
         context.restore();
     };
+    /**
+     *
+     * @param {int} canvasCenterX
+     * @param {int} canvasCenterY
+     * @param {int} outsideRadius
+     */
     WheelComponent.prototype.drawArrow = function (canvasCenterX, canvasCenterY, outsideRadius) {
         var context = this.context;
         context.fillStyle = "black";
@@ -69,13 +82,16 @@ var WheelComponent = (function () {
         core_1.ViewChild('wheelCanvas'), 
         __metadata('design:type', core_1.ElementRef)
     ], WheelComponent.prototype, "canvas", void 0);
+    __decorate([
+        core_1.Input(), 
+        __metadata('design:type', Object)
+    ], WheelComponent.prototype, "options", void 0);
     WheelComponent = __decorate([
         core_1.Component({
             selector: 'wheel',
-            template: '<canvas #wheelCanvas class="wheel-canvas" width="550" height="550"></canvas>',
-            providers: [option_service_1.OptionService]
+            templateUrl: 'app/templates/wheel.html'
         }), 
-        __metadata('design:paramtypes', [option_service_1.OptionService])
+        __metadata('design:paramtypes', [])
     ], WheelComponent);
     return WheelComponent;
 }());

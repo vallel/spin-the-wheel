@@ -9,18 +9,37 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 var core_1 = require('@angular/core');
-var config_panel_component_1 = require("./config-panel.component");
 var wheel_component_1 = require("./wheel.component");
+var option_service_1 = require("./option.service");
+var options_table_component_1 = require("./options-table.component");
 var AppComponent = (function () {
-    function AppComponent() {
+    /**
+     * @param {OptionService} optionService
+     */
+    function AppComponent(optionService) {
+        this.optionService = optionService;
+        this.showConfig = false;
     }
+    AppComponent.prototype.ngOnInit = function () {
+        this.options = this.getOptions();
+    };
+    /**
+     * @returns {Option[]}
+     */
+    AppComponent.prototype.getOptions = function () {
+        return this.optionService.getOptions();
+    };
+    AppComponent.prototype.toggleConfigPanel = function () {
+        this.showConfig = !this.showConfig;
+    };
     AppComponent = __decorate([
         core_1.Component({
             selector: 'my-app',
             templateUrl: 'app/templates/app.html',
-            directives: [config_panel_component_1.ConfigPanelComponent, wheel_component_1.WheelComponent]
+            directives: [options_table_component_1.OptionsTableComponent, wheel_component_1.WheelComponent],
+            providers: [option_service_1.OptionService]
         }), 
-        __metadata('design:paramtypes', [])
+        __metadata('design:paramtypes', [option_service_1.OptionService])
     ], AppComponent);
     return AppComponent;
 }());
