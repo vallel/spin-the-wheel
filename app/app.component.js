@@ -32,6 +32,10 @@ var AppComponent = (function () {
     AppComponent.prototype.toggleConfigPanel = function () {
         this.showConfig = !this.showConfig;
     };
+    __decorate([
+        core_1.ViewChild(wheel_component_1.WheelComponent), 
+        __metadata('design:type', wheel_component_1.WheelComponent)
+    ], AppComponent.prototype, "wheel", void 0);
     AppComponent = __decorate([
         core_1.Component({
             selector: 'my-app',

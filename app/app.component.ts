@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit, ViewChild} from '@angular/core';
 import {WheelComponent} from "./wheel.component";
 import {OptionService, Option} from "./option.service";
 import {OptionsTableComponent} from "./options-table.component";
@@ -14,6 +14,9 @@ export class AppComponent implements OnInit {
     options: Option[];
 
     showConfig = false;
+
+    @ViewChild(WheelComponent)
+    private wheel: WheelComponent;
 
     ngOnInit(): void {
         this.options = this.getOptions();

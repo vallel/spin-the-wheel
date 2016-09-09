@@ -11,6 +11,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 var core_1 = require("@angular/core");
 var option_service_1 = require("./option.service");
 var color_picker_directive_1 = require('./color-picker/color-picker.directive');
+var wheel_component_1 = require("./wheel.component");
 var OptionsTableComponent = (function () {
     function OptionsTableComponent(optionService) {
         this.optionService = optionService;
@@ -26,6 +27,7 @@ var OptionsTableComponent = (function () {
         if (confirm('¿Esta seguro de borrar la opción "' + option.name + '"?')) {
             this.optionService.deleteOption(index);
             this.options = this.optionService.getOptions();
+            this.drawWheelCanvas();
         }
     };
     OptionsTableComponent.prototype.onEdit = function (index) {
@@ -35,6 +37,7 @@ var OptionsTableComponent = (function () {
     OptionsTableComponent.prototype.onSave = function (index, option) {
         this.optionService.saveOption(index, option);
         this.turnOffEditMode();
+        this.drawWheelCanvas();
     };
     OptionsTableComponent.prototype.onCancelEdit = function () {
         this.restorePreviousValues();
@@ -58,10 +61,17 @@ var OptionsTableComponent = (function () {
             this.previousEditRowValues = null;
         }
     };
+    OptionsTableComponent.prototype.drawWheelCanvas = function () {
+        this.wheel.drawWheel();
+    };
     __decorate([
         core_1.Input(), 
         __metadata('design:type', Object)
     ], OptionsTableComponent.prototype, "options", void 0);
+    __decorate([
+        core_1.Input(), 
+        __metadata('design:type', wheel_component_1.WheelComponent)
+    ], OptionsTableComponent.prototype, "wheel", void 0);
     OptionsTableComponent = __decorate([
         core_1.Component({
             selector: 'options-table',

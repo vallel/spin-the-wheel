@@ -1,6 +1,7 @@
 import {Component, Input} from "@angular/core";
 import {OptionService, Option} from "./option.service";
 import {ColorPickerDirective} from './color-picker/color-picker.directive'
+import {WheelComponent} from "./wheel.component";
 
 @Component({
     selector: 'options-table',
@@ -10,6 +11,7 @@ import {ColorPickerDirective} from './color-picker/color-picker.directive'
 
 export class OptionsTableComponent {
     @Input() options = [];
+    @Input() wheel: WheelComponent;
     editModeRow = null;
     previousEditRowValues = null;
 
@@ -24,6 +26,7 @@ export class OptionsTableComponent {
         if (confirm('¿Esta seguro de borrar la opción "'+ option.name +'"?')) {
             this.optionService.deleteOption(index);
             this.options = this.optionService.getOptions();
+            this.drawWheelCanvas();
         }
     }
 
@@ -35,6 +38,7 @@ export class OptionsTableComponent {
     onSave(index: number, option: Option) {
         this.optionService.saveOption(index, option);
         this.turnOffEditMode();
+        this.drawWheelCanvas();
     }
 
     onCancelEdit() {
@@ -61,5 +65,9 @@ export class OptionsTableComponent {
             this.options[this.editModeRow] = new Option(this.previousEditRowValues.name, this.previousEditRowValues.color);
             this.previousEditRowValues = null;
         }
+    }
+
+    public drawWheelCanvas() {
+        this.wheel.drawWheel();
     }
 }
