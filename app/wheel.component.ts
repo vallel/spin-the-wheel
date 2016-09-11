@@ -12,6 +12,13 @@ export class WheelComponent implements AfterViewInit {
 
     context: CanvasRenderingContext2D;
 
+    spinAngleStart = 10;
+    startAngle = 0;
+    spinTime = 0;
+    spinTimeTotal = 0;
+    spinTimeout = null;
+    arc = 0;
+
     ngAfterViewInit() {
         this.context = this.canvas.nativeElement.getContext("2d");
         this.drawWheel();
@@ -52,15 +59,17 @@ export class WheelComponent implements AfterViewInit {
      * @param {int} textRadius
      */
     private drawRouletteElement(index, canvasCenterX, canvasCenterY, outsideRadius, insideRadius, textRadius) {
+       this.arc = Math.PI / (this.options.length / 2);
+
         let context = this.context,
-            option = this.options[index],
-            arc = Math.PI / (this.options.length / 2),
-            angle = index * arc;
+            option = this.options[index],          
+            angle = this.startAngle + index * this.arc;
+
         context.fillStyle = option.color;
 
         context.beginPath();
-        context.arc(canvasCenterX, canvasCenterY, outsideRadius, angle, angle + arc, false);
-        context.arc(canvasCenterX, canvasCenterY, insideRadius, angle + arc, angle, true);
+        context.arc(canvasCenterX, canvasCenterY, outsideRadius, angle, angle + this.arc, false);
+        context.arc(canvasCenterX, canvasCenterY, insideRadius, angle + this.arc, angle, true);
         context.stroke();
         context.fill();
 
@@ -68,8 +77,8 @@ export class WheelComponent implements AfterViewInit {
         context.shadowOffsetX = -0.5;
         context.fillStyle = "white";
         context.font = "17px Arial";
-        context.translate(canvasCenterX + Math.cos(angle + arc / 2) * textRadius, canvasCenterY + Math.sin(angle + arc / 2) * textRadius);
-        context.rotate(angle + arc / 2);
+        context.translate(canvasCenterX + Math.cos(angle + this.arc / 2) * textRadius, canvasCenterY + Math.sin(angle + this.arc / 2) * textRadius);
+        context.rotate(angle + this.arc / 2);
         context.fillText(option.name, -context.measureText(option.name).width / 2, 0);
         context.restore();
     }
@@ -85,14 +94,51 @@ export class WheelComponent implements AfterViewInit {
 
         context.fillStyle = "black";
         context.beginPath();
-        context.moveTo(canvasCenterX - 12, canvasCenterY - (outsideRadius + 15));
-        context.lineTo(canvasCenterX + 12, canvasCenterY - (outsideRadius + 15));
-        context.lineTo(canvasCenterX + 12, canvasCenterY - (outsideRadius - 15));
-        context.lineTo(canvasCenterX + 27, canvasCenterY - (outsideRadius - 15));
-        context.lineTo(canvasCenterX, canvasCenterY - (outsideRadius - 39));
-        context.lineTo(canvasCenterX - 27, canvasCenterY - (outsideRadius - 15));
-        context.lineTo(canvasCenterX - 12, canvasCenterY - (outsideRadius - 15));
-        context.lineTo(canvasCenterX - 12, canvasCenterY - (outsideRadius + 15));
+        context.moveTo(canvasCenterX - 15, canvasCenterY - (outsideRadius + 20));
+        context.lineTo(canvasCenterX + 15, canvasCenterY - (outsideRadius + 20));
+        context.lineTo(canvasCenterX, canvasCenterY - (outsideRadius - 30));
+        context.lineTo(canvasCenterX - 15, canvasCenterY - (outsideRadius + 20));
         context.fill();
+    }
+
+    public spinTheWheel() {
+        this.spinAngleStart = Math.random() * 10 + 10;
+        this.spinTime = 0;
+        this.spinTimeTotal = Math.random() * 3 + 10 * 1000;
+        this.rotateWheel();
+    }
+
+    private rotateWheel(scope = null) {
+        scope = scope || this;
+
+        scope.spinTime += 30;
+        if(scope.spinTime >= scope.spinTimeTotal) {
+            scope.stopRotateWheel();
+            return;
+        }
+        let spinAngle = scope.spinAngleStart - scope.easeOut(scope.spinTime, 0, scope.spinAngleStart, scope.spinTimeTotal);
+        scope.startAngle += (spinAngle * Math.PI / 180);
+        scope.drawWheel();
+        scope.spinTimeout = setTimeout(scope.rotateWheel, 30, scope);
+    }
+
+    private stopRotateWheel() {
+        clearTimeout(this.spinTimeout);
+        let degrees = this.startAngle * 180 / Math.PI + 90;
+        let arcd = this.arc * 180 / Math.PI;
+        let index = Math.floor((360 - degrees % 360) / arcd);
+        this.context.save();
+        this.context.font = 'bold 30px Helvetica, Arial';
+        let text = this.options[index];
+
+        //alertModal(text);
+
+        this.context.restore();
+    }
+
+    private easeOut(t, b, c, d) {
+        let ts = (t/=d)*t;
+        let tc = ts*t;
+        return b+c*(tc + -3*ts + 3*t);
     }
 }

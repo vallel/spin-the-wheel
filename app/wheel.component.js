@@ -12,6 +12,12 @@ var core_1 = require("@angular/core");
 var WheelComponent = (function () {
     function WheelComponent() {
         this.options = [];
+        this.spinAngleStart = 10;
+        this.startAngle = 0;
+        this.spinTime = 0;
+        this.spinTimeTotal = 0;
+        this.spinTimeout = null;
+        this.arc = 0;
     }
     WheelComponent.prototype.ngAfterViewInit = function () {
         this.context = this.canvas.nativeElement.getContext("2d");
@@ -42,19 +48,20 @@ var WheelComponent = (function () {
      * @param {int} textRadius
      */
     WheelComponent.prototype.drawRouletteElement = function (index, canvasCenterX, canvasCenterY, outsideRadius, insideRadius, textRadius) {
-        var context = this.context, option = this.options[index], arc = Math.PI / (this.options.length / 2), angle = index * arc;
+        this.arc = Math.PI / (this.options.length / 2);
+        var context = this.context, option = this.options[index], angle = this.startAngle + index * this.arc;
         context.fillStyle = option.color;
         context.beginPath();
-        context.arc(canvasCenterX, canvasCenterY, outsideRadius, angle, angle + arc, false);
-        context.arc(canvasCenterX, canvasCenterY, insideRadius, angle + arc, angle, true);
+        context.arc(canvasCenterX, canvasCenterY, outsideRadius, angle, angle + this.arc, false);
+        context.arc(canvasCenterX, canvasCenterY, insideRadius, angle + this.arc, angle, true);
         context.stroke();
         context.fill();
         context.save();
         context.shadowOffsetX = -0.5;
         context.fillStyle = "white";
         context.font = "17px Arial";
-        context.translate(canvasCenterX + Math.cos(angle + arc / 2) * textRadius, canvasCenterY + Math.sin(angle + arc / 2) * textRadius);
-        context.rotate(angle + arc / 2);
+        context.translate(canvasCenterX + Math.cos(angle + this.arc / 2) * textRadius, canvasCenterY + Math.sin(angle + this.arc / 2) * textRadius);
+        context.rotate(angle + this.arc / 2);
         context.fillText(option.name, -context.measureText(option.name).width / 2, 0);
         context.restore();
     };
@@ -68,15 +75,46 @@ var WheelComponent = (function () {
         var context = this.context;
         context.fillStyle = "black";
         context.beginPath();
-        context.moveTo(canvasCenterX - 12, canvasCenterY - (outsideRadius + 15));
-        context.lineTo(canvasCenterX + 12, canvasCenterY - (outsideRadius + 15));
-        context.lineTo(canvasCenterX + 12, canvasCenterY - (outsideRadius - 15));
-        context.lineTo(canvasCenterX + 27, canvasCenterY - (outsideRadius - 15));
-        context.lineTo(canvasCenterX, canvasCenterY - (outsideRadius - 39));
-        context.lineTo(canvasCenterX - 27, canvasCenterY - (outsideRadius - 15));
-        context.lineTo(canvasCenterX - 12, canvasCenterY - (outsideRadius - 15));
-        context.lineTo(canvasCenterX - 12, canvasCenterY - (outsideRadius + 15));
+        context.moveTo(canvasCenterX - 15, canvasCenterY - (outsideRadius + 20));
+        context.lineTo(canvasCenterX + 15, canvasCenterY - (outsideRadius + 20));
+        context.lineTo(canvasCenterX, canvasCenterY - (outsideRadius - 30));
+        context.lineTo(canvasCenterX - 15, canvasCenterY - (outsideRadius + 20));
         context.fill();
+    };
+    WheelComponent.prototype.spinTheWheel = function () {
+        this.spinAngleStart = Math.random() * 10 + 10;
+        this.spinTime = 0;
+        this.spinTimeTotal = Math.random() * 3 + 10 * 1000;
+        this.rotateWheel();
+    };
+    WheelComponent.prototype.rotateWheel = function (scope) {
+        if (scope === void 0) { scope = null; }
+        scope = scope || this;
+        scope.spinTime += 30;
+        if (scope.spinTime >= scope.spinTimeTotal) {
+            scope.stopRotateWheel();
+            return;
+        }
+        var spinAngle = scope.spinAngleStart - scope.easeOut(scope.spinTime, 0, scope.spinAngleStart, scope.spinTimeTotal);
+        scope.startAngle += (spinAngle * Math.PI / 180);
+        scope.drawWheel();
+        scope.spinTimeout = setTimeout(scope.rotateWheel, 30, scope);
+    };
+    WheelComponent.prototype.stopRotateWheel = function () {
+        clearTimeout(this.spinTimeout);
+        var degrees = this.startAngle * 180 / Math.PI + 90;
+        var arcd = this.arc * 180 / Math.PI;
+        var index = Math.floor((360 - degrees % 360) / arcd);
+        this.context.save();
+        this.context.font = 'bold 30px Helvetica, Arial';
+        var text = this.options[index];
+        //alertModal(text);
+        this.context.restore();
+    };
+    WheelComponent.prototype.easeOut = function (t, b, c, d) {
+        var ts = (t /= d) * t;
+        var tc = ts * t;
+        return b + c * (tc + -3 * ts + 3 * t);
     };
     __decorate([
         core_1.ViewChild('wheelCanvas'), 

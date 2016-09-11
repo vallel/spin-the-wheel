@@ -54,6 +54,10 @@ body {
     margin: 10px auto;
 }
 
+.wheel-canvas:hover {
+    cursor: pointer;
+}
+
 #buttons {
     margin: 10px auto;
     width: 500px;
