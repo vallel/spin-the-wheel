@@ -9,8 +9,10 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 var core_1 = require("@angular/core");
+var alert_service_1 = require("./alert.service");
 var WheelComponent = (function () {
-    function WheelComponent() {
+    function WheelComponent(alertService) {
+        this.alertService = alertService;
         this.options = [];
         this.spinAngleStart = 10;
         this.startAngle = 0;
@@ -22,6 +24,19 @@ var WheelComponent = (function () {
     WheelComponent.prototype.ngAfterViewInit = function () {
         this.context = this.canvas.nativeElement.getContext("2d");
         this.drawWheel();
+    };
+    WheelComponent.prototype.onCanvasClick = function () {
+        if (this.spinTimeout == null) {
+            var that_1 = this;
+            var onResolve = function (username) {
+                that_1.username = username;
+                that_1.spinTheWheel();
+            };
+            this.alertService.input('¿Quién participa?', onResolve);
+        }
+        else {
+            this.spinTheWheel();
+        }
     };
     WheelComponent.prototype.drawWheel = function () {
         var canvas = this.canvas.nativeElement;
@@ -107,8 +122,9 @@ var WheelComponent = (function () {
         var index = Math.floor((360 - degrees % 360) / arcd);
         this.context.save();
         this.context.font = 'bold 30px Helvetica, Arial';
-        var text = this.options[index];
-        //alertModal(text);
+        var text = 'Tu premio es: ' + this.options[index].name;
+        this.alertService.success('Felicidades ' + this.username + '!', text);
+        this.spinTimeout = null;
         this.context.restore();
     };
     WheelComponent.prototype.easeOut = function (t, b, c, d) {
@@ -127,9 +143,10 @@ var WheelComponent = (function () {
     WheelComponent = __decorate([
         core_1.Component({
             selector: 'wheel',
-            templateUrl: 'app/templates/wheel.html'
+            templateUrl: 'app/templates/wheel.html',
+            providers: [alert_service_1.AlertService]
         }), 
-        __metadata('design:paramtypes', [])
+        __metadata('design:paramtypes', [alert_service_1.AlertService])
     ], WheelComponent);
     return WheelComponent;
 }());

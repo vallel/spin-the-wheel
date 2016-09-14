@@ -1,8 +1,10 @@
 import {Component, ViewChild, ElementRef, Input, AfterViewInit} from "@angular/core";
+import {AlertService} from "./alert.service";
 
 @Component({
     selector: 'wheel',
-    templateUrl: 'app/templates/wheel.html'
+    templateUrl: 'app/templates/wheel.html',
+    providers: [AlertService]
 })
 
 export class WheelComponent implements AfterViewInit {
@@ -19,10 +21,29 @@ export class WheelComponent implements AfterViewInit {
     spinTimeout = null;
     arc = 0;
 
+    username: string;
+
+    public constructor(private alertService: AlertService) { }
+
     ngAfterViewInit() {
         this.context = this.canvas.nativeElement.getContext("2d");
         this.drawWheel();
     }
+
+    public onCanvasClick() {
+        if (this.spinTimeout == null) {
+            let that = this;
+            let onResolve = function(username) {
+                that.username = username;
+                that.spinTheWheel();
+            };
+            this.alertService.input('¿Quién participa?', onResolve);
+        }
+        else {
+            this.spinTheWheel();
+        }
+    }
+
 
     public drawWheel() {
         let canvas = this.canvas.nativeElement;
@@ -129,10 +150,11 @@ export class WheelComponent implements AfterViewInit {
         let index = Math.floor((360 - degrees % 360) / arcd);
         this.context.save();
         this.context.font = 'bold 30px Helvetica, Arial';
-        let text = this.options[index];
 
-        //alertModal(text);
+        let text = 'Tu premio es: ' + this.options[index].name;
+        this.alertService.success('Felicidades ' + this.username + '!', text);
 
+        this.spinTimeout = null;
         this.context.restore();
     }
 
