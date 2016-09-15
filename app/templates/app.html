@@ -1,13 +1,17 @@
-<section class="config-section" *ngIf="showConfig">
-    <h3 class="config-title">Configurar ruleta</h3>
+<section class="config-section" *ngIf="showConfig || showHistory">
+    <options-table [options]="options" [wheel]="wheel" *ngIf="showConfig"></options-table>
 
-    <options-table [options]="options" [wheel]="wheel"></options-table>
+    <price-history [records]="priceHistory" *ngIf="showHistory"></price-history>
 </section>
 
 <section class="main-content">
-    <button class="config-btn btn" (click)="toggleConfigPanel()" [class.config-btn-active]="showConfig">
+    <button class="config-btn btn" (click)="toggleConfigPanel()" [class.config-btn-active]="showConfig || showHistory">
         <span class="glyphicon glyphicon-cog"></span>
     </button>
 
-    <wheel [options]="options"></wheel>
+    <button class="config-btn btn" (click)="toggleHistoryPanel()" [class.config-btn-active]="showConfig || showHistory">
+        <span class="glyphicon glyphicon-th-list"></span>
+    </button>
+
+    <wheel [options]="options" [history]="priceHistory"></wheel>
 </section>

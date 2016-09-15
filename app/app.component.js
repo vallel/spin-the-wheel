@@ -12,16 +12,22 @@ var core_1 = require('@angular/core');
 var wheel_component_1 = require("./wheel.component");
 var option_service_1 = require("./option.service");
 var options_table_component_1 = require("./options-table.component");
+var price_history_service_1 = require("./price-history.service");
+var price_history_component_1 = require("./price-history.component");
 var AppComponent = (function () {
     /**
      * @param {OptionService} optionService
+     * @param {PriceHistoryService} priceHistoryService
      */
-    function AppComponent(optionService) {
+    function AppComponent(optionService, priceHistoryService) {
         this.optionService = optionService;
+        this.priceHistoryService = priceHistoryService;
         this.showConfig = false;
+        this.showHistory = false;
     }
     AppComponent.prototype.ngOnInit = function () {
         this.options = this.getOptions();
+        this.priceHistory = this.getPriceHistoryRecords();
     };
     /**
      * @returns {Option[]}
@@ -29,8 +35,16 @@ var AppComponent = (function () {
     AppComponent.prototype.getOptions = function () {
         return this.optionService.getOptions();
     };
+    AppComponent.prototype.getPriceHistoryRecords = function () {
+        return this.priceHistoryService.getRecords();
+    };
     AppComponent.prototype.toggleConfigPanel = function () {
         this.showConfig = !this.showConfig;
+        this.showHistory = this.showConfig ? false : this.showHistory;
+    };
+    AppComponent.prototype.toggleHistoryPanel = function () {
+        this.showHistory = !this.showHistory;
+        this.showConfig = this.showHistory ? false : this.showConfig;
     };
     __decorate([
         core_1.ViewChild(wheel_component_1.WheelComponent), 
@@ -40,10 +54,10 @@ var AppComponent = (function () {
         core_1.Component({
             selector: 'my-app',
             templateUrl: 'app/templates/app.html',
-            directives: [options_table_component_1.OptionsTableComponent, wheel_component_1.WheelComponent],
-            providers: [option_service_1.OptionService]
+            directives: [options_table_component_1.OptionsTableComponent, wheel_component_1.WheelComponent, price_history_component_1.PriceHistoryComponent],
+            providers: [option_service_1.OptionService, price_history_service_1.PriceHistoryService]
         }), 
-        __metadata('design:paramtypes', [option_service_1.OptionService])
+        __metadata('design:paramtypes', [option_service_1.OptionService, price_history_service_1.PriceHistoryService])
     ], AppComponent);
     return AppComponent;
 }());

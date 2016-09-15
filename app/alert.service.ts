@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core'
+declare var swal: any;
 
 @Injectable()
 export class AlertService {

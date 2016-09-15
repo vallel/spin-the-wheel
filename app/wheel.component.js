@@ -10,10 +10,13 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 var core_1 = require("@angular/core");
 var alert_service_1 = require("./alert.service");
+var price_history_service_1 = require("./price-history.service");
 var WheelComponent = (function () {
-    function WheelComponent(alertService) {
+    function WheelComponent(alertService, priceHistory) {
         this.alertService = alertService;
+        this.priceHistory = priceHistory;
         this.options = [];
+        this.history = [];
         this.spinAngleStart = 10;
         this.startAngle = 0;
         this.spinTime = 0;
@@ -122,10 +125,15 @@ var WheelComponent = (function () {
         var index = Math.floor((360 - degrees % 360) / arcd);
         this.context.save();
         this.context.font = 'bold 30px Helvetica, Arial';
-        var text = 'Tu premio es: ' + this.options[index].name;
+        var price = this.options[index].name, text = 'Tu premio es: ' + price;
         this.alertService.success('Felicidades ' + this.username + '!', text);
+        this.addPriceToHistory(this.username, price);
         this.spinTimeout = null;
         this.context.restore();
+    };
+    WheelComponent.prototype.addPriceToHistory = function (username, price) {
+        this.history.push(new price_history_service_1.HistoryRecord(username, price));
+        this.priceHistory.saveRecords(this.history);
     };
     WheelComponent.prototype.easeOut = function (t, b, c, d) {
         var ts = (t /= d) * t;
@@ -140,13 +148,17 @@ var WheelComponent = (function () {
         core_1.Input(), 
         __metadata('design:type', Object)
     ], WheelComponent.prototype, "options", void 0);
+    __decorate([
+        core_1.Input(), 
+        __metadata('design:type', Object)
+    ], WheelComponent.prototype, "history", void 0);
     WheelComponent = __decorate([
         core_1.Component({
             selector: 'wheel',
             templateUrl: 'app/templates/wheel.html',
             providers: [alert_service_1.AlertService]
         }), 
-        __metadata('design:paramtypes', [alert_service_1.AlertService])
+        __metadata('design:paramtypes', [alert_service_1.AlertService, price_history_service_1.PriceHistoryService])
     ], WheelComponent);
     return WheelComponent;
 }());

@@ -1,5 +1,6 @@
 import {Component, ViewChild, ElementRef, Input, AfterViewInit} from "@angular/core";
 import {AlertService} from "./alert.service";
+import {PriceHistoryService, HistoryRecord} from "./price-history.service";
 
 @Component({
     selector: 'wheel',
@@ -11,6 +12,7 @@ export class WheelComponent implements AfterViewInit {
     @ViewChild('wheelCanvas') canvas: ElementRef;
 
     @Input() options = [];
+    @Input() history = [];
 
     context: CanvasRenderingContext2D;
 
@@ -23,7 +25,7 @@ export class WheelComponent implements AfterViewInit {
 
     username: string;
 
-    public constructor(private alertService: AlertService) { }
+    public constructor(private alertService: AlertService, private priceHistory: PriceHistoryService) { }
 
     ngAfterViewInit() {
         this.context = this.canvas.nativeElement.getContext("2d");
@@ -151,11 +153,18 @@ export class WheelComponent implements AfterViewInit {
         this.context.save();
         this.context.font = 'bold 30px Helvetica, Arial';
 
-        let text = 'Tu premio es: ' + this.options[index].name;
+        let price = this.options[index].name,
+            text = 'Tu premio es: ' + price;
         this.alertService.success('Felicidades ' + this.username + '!', text);
+        this.addPriceToHistory(this.username, price);
 
         this.spinTimeout = null;
         this.context.restore();
+    }
+
+    private addPriceToHistory(username: string, price: string) {
+        this.history.push(new HistoryRecord(username, price));
+        this.priceHistory.saveRecords(this.history);
     }
 
     private easeOut(t, b, c, d) {

@@ -42,6 +42,7 @@ body {
 }
 
 .config-btn {
+    display: block;
     margin: 10px;
 }
 

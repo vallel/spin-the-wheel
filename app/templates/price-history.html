@@ -1,0 +1,7 @@
+<h3 class="config-title">Historial</h3>
+
+<ul>
+    <li *ngFor="let record of records">
+        [{{ record.getDateToString() }}] <span class="label label-primary">{{ record.username }}</span> - {{ record.price }}
+    </li>
+</ul>
