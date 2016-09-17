@@ -17,6 +17,8 @@ var WheelComponent = (function () {
         this.priceHistory = priceHistory;
         this.options = [];
         this.history = [];
+        this.spinning = 0;
+        this.onWheelClicked = new core_1.EventEmitter();
         this.spinAngleStart = 10;
         this.startAngle = 0;
         this.spinTime = 0;
@@ -29,7 +31,7 @@ var WheelComponent = (function () {
         this.drawWheel();
     };
     WheelComponent.prototype.onCanvasClick = function () {
-        if (this.spinTimeout == null) {
+        if (!this.spinning) {
             var that_1 = this;
             var onResolve = function (username) {
                 that_1.username = username;
@@ -100,6 +102,8 @@ var WheelComponent = (function () {
         context.fill();
     };
     WheelComponent.prototype.spinTheWheel = function () {
+        this.spinning++;
+        this.onWheelClicked.emit({ value: this.spinning > 0 });
         this.spinAngleStart = Math.random() * 10 + 10;
         this.spinTime = 0;
         this.spinTimeTotal = Math.random() * 3 + 10 * 1000;
@@ -127,8 +131,12 @@ var WheelComponent = (function () {
         this.context.font = 'bold 30px Helvetica, Arial';
         var price = this.options[index].name, text = 'Tu premio es: ' + price;
         this.alertService.success('Felicidades ' + this.username + '!', text);
-        this.addPriceToHistory(this.username, price);
-        this.spinTimeout = null;
+        this.spinning--;
+        this.onWheelClicked.emit({ value: this.spinning > 0 });
+        if (this.spinning == 1) {
+            this.spinning--;
+            this.addPriceToHistory(this.username, price);
+        }
         this.context.restore();
     };
     WheelComponent.prototype.addPriceToHistory = function (username, price) {
@@ -152,6 +160,14 @@ var WheelComponent = (function () {
         core_1.Input(), 
         __metadata('design:type', Object)
     ], WheelComponent.prototype, "history", void 0);
+    __decorate([
+        core_1.Input(), 
+        __metadata('design:type', Object)
+    ], WheelComponent.prototype, "spinning", void 0);
+    __decorate([
+        core_1.Output(), 
+        __metadata('design:type', Object)
+    ], WheelComponent.prototype, "onWheelClicked", void 0);
     WheelComponent = __decorate([
         core_1.Component({
             selector: 'wheel',

@@ -1,4 +1,4 @@
-import {Component, ViewChild, ElementRef, Input, AfterViewInit} from "@angular/core";
+import {Component, ViewChild, ElementRef, Input, AfterViewInit, Output, EventEmitter} from "@angular/core";
 import {AlertService} from "./alert.service";
 import {PriceHistoryService, HistoryRecord} from "./price-history.service";
 
@@ -13,6 +13,9 @@ export class WheelComponent implements AfterViewInit {
 
     @Input() options = [];
     @Input() history = [];
+    @Input() spinning = 0;
+
+    @Output() onWheelClicked = new EventEmitter();
 
     context: CanvasRenderingContext2D;
 
@@ -33,7 +36,7 @@ export class WheelComponent implements AfterViewInit {
     }
 
     public onCanvasClick() {
-        if (this.spinTimeout == null) {
+        if (!this.spinning) {
             let that = this;
             let onResolve = function(username) {
                 that.username = username;
@@ -125,6 +128,9 @@ export class WheelComponent implements AfterViewInit {
     }
 
     public spinTheWheel() {
+        this.spinning++;
+        this.onWheelClicked.emit({value: this.spinning > 0});
+
         this.spinAngleStart = Math.random() * 10 + 10;
         this.spinTime = 0;
         this.spinTimeTotal = Math.random() * 3 + 10 * 1000;
@@ -156,9 +162,15 @@ export class WheelComponent implements AfterViewInit {
         let price = this.options[index].name,
             text = 'Tu premio es: ' + price;
         this.alertService.success('Felicidades ' + this.username + '!', text);
-        this.addPriceToHistory(this.username, price);
 
-        this.spinTimeout = null;
+        this.spinning--;
+        this.onWheelClicked.emit({value: this.spinning > 0});
+
+        if (this.spinning == 1) {
+            this.spinning--;
+            this.addPriceToHistory(this.username, price);
+        }
+
         this.context.restore();
     }
 

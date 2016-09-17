@@ -1,9 +1,10 @@
 import {Injectable} from "@angular/core";
 
 export class HistoryRecord {
-    private username: string;
-    private price: string;
-    private date: Date;
+    public username: string;
+    public price: string;
+    public date: Date;
+    public checked: boolean;
 
     public constructor(username: string, price: string) {
         this.username = username;
@@ -11,15 +12,8 @@ export class HistoryRecord {
         this.date = new Date();
     }
 
-    /**
-     * @returns {string}
-     */
-    public getDateToString() {
-        let day = this.date.getDate(),
-            month = this.date.getMonth() + 1,
-            year = this.date.getFullYear();
-
-        return day + '/' + month + '/' + year;
+    public setDate(dateString: string) {
+        this.date = new Date(dateString);
     }
 }
 
@@ -30,14 +24,22 @@ export class PriceHistoryService {
      * @returns {HistoryRecord[]}
      */
     public getRecords() {
-        let jsonRecords = JSON.parse(localStorage.getItem('priceHistory')),
+        let priceHistory = localStorage.getItem('priceHistory'),
+            jsonRecords = priceHistory ? JSON.parse(priceHistory) : {},
             records = [];
 
         if (jsonRecords) {
             for (let i = 0; i < jsonRecords.length; i++) {
                 let username = jsonRecords[i].username,
-                    price = jsonRecords[i].price;
-                records.push(new HistoryRecord(username, price));
+                    price = jsonRecords[i].price,
+                    date = jsonRecords[i].date,
+                    checked = jsonRecords[i].checked,
+                    record = new HistoryRecord(username, price);
+
+                record.setDate(date);
+                record.checked = checked;
+
+                records.push(record);
             }
         }
 

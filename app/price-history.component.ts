@@ -1,5 +1,5 @@
 import {Component, Input} from "@angular/core";
-import {HistoryRecord} from "./price-history.service";
+import {HistoryRecord, PriceHistoryService} from "./price-history.service";
 
 @Component({
     selector: 'price-history',
@@ -9,4 +9,11 @@ import {HistoryRecord} from "./price-history.service";
 export class PriceHistoryComponent {
 
     @Input() records: HistoryRecord[];
+
+    public constructor(private priceHistoryService: PriceHistoryService) { }
+
+    public onCheckBoxClick(record: HistoryRecord) {
+        record.checked = !record.checked;
+        this.priceHistoryService.saveRecords(this.records);
+    }
 }

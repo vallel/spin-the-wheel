@@ -24,6 +24,7 @@ var AppComponent = (function () {
         this.priceHistoryService = priceHistoryService;
         this.showConfig = false;
         this.showHistory = false;
+        this.wheelSpinning = false;
     }
     AppComponent.prototype.ngOnInit = function () {
         this.options = this.getOptions();
@@ -45,6 +46,18 @@ var AppComponent = (function () {
     AppComponent.prototype.toggleHistoryPanel = function () {
         this.showHistory = !this.showHistory;
         this.showConfig = this.showHistory ? false : this.showConfig;
+    };
+    AppComponent.prototype.closePanels = function () {
+        this.showConfig = false;
+        this.showHistory = false;
+    };
+    AppComponent.prototype.isShowingPannel = function () {
+        return this.showConfig || this.showHistory;
+    };
+    AppComponent.prototype.onWheelClick = function (event) {
+        if (event.value) {
+            this.closePanels();
+        }
     };
     __decorate([
         core_1.ViewChild(wheel_component_1.WheelComponent), 

@@ -15,12 +15,8 @@ var HistoryRecord = (function () {
         this.price = price;
         this.date = new Date();
     }
-    /**
-     * @returns {string}
-     */
-    HistoryRecord.prototype.getDateToString = function () {
-        var day = this.date.getDate(), month = this.date.getMonth() + 1, year = this.date.getFullYear();
-        return day + '/' + month + '/' + year;
+    HistoryRecord.prototype.setDate = function (dateString) {
+        this.date = new Date(dateString);
     };
     return HistoryRecord;
 }());
@@ -32,11 +28,13 @@ var PriceHistoryService = (function () {
      * @returns {HistoryRecord[]}
      */
     PriceHistoryService.prototype.getRecords = function () {
-        var jsonRecords = JSON.parse(localStorage.getItem('priceHistory')), records = [];
+        var priceHistory = localStorage.getItem('priceHistory'), jsonRecords = priceHistory ? JSON.parse(priceHistory) : {}, records = [];
         if (jsonRecords) {
             for (var i = 0; i < jsonRecords.length; i++) {
-                var username = jsonRecords[i].username, price = jsonRecords[i].price;
-                records.push(new HistoryRecord(username, price));
+                var username = jsonRecords[i].username, price = jsonRecords[i].price, date = jsonRecords[i].date, checked = jsonRecords[i].checked, record = new HistoryRecord(username, price);
+                record.setDate(date);
+                record.checked = checked;
+                records.push(record);
             }
         }
         return records;

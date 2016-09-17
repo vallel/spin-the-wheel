@@ -107,3 +107,12 @@ body {
     margin: 0 auto;
     pointer-events:all;
 }
+
+.history-checked {
+    text-decoration: line-through;
+}
+
+.history-list {
+    height: 90%;
+    overflow-y: scroll;
+}

@@ -20,6 +20,8 @@ export class AppComponent implements OnInit {
     showConfig = false;
     showHistory = false;
 
+    wheelSpinning = false;
+
     @ViewChild(WheelComponent)
     private wheel: WheelComponent;
 
@@ -54,4 +56,20 @@ export class AppComponent implements OnInit {
         this.showHistory = !this.showHistory;
         this.showConfig = this.showHistory ? false : this.showConfig;
     }
+
+    public closePanels() {
+        this.showConfig = false;
+        this.showHistory = false;
+    }
+
+    public isShowingPannel() {
+        return this.showConfig || this.showHistory;
+    }
+
+    public onWheelClick(event) {
+        if (event.value) {
+            this.closePanels();
+        }
+    }
+
 }
