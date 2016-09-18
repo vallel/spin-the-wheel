@@ -2,9 +2,61 @@ body {
     background: url('../img/seogirlsbckg.png');
 }
 
-#canvas {
+.config-section {
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    padding: 10px;
+    width: 500px;
+    height: auto;
+    overflow: hidden;
+    background: #f8f8f8;
+    z-index: 2;
+    border-right: 1px solid #e7e7e7;
+}
+
+.config-title {
+    margin: 0 0 10px;
+    padding-bottom: 3px;
+    border-bottom: 1px solid #e7e7e7;
+}
+
+.option-color-display {
+    display: inline-block;
+    width: 16px;
+    height: 16px;
+}
+
+.option-color-display-sm {
+    display: inline-block;
+    width: 14px;
+    height: 14px;
+}
+
+.option-color-value {
+    padding: 6px;
+}
+
+.delete-option-btn, .save-option-btn {
+    margin-right: 4px;
+}
+
+.config-btn {
+    display: block;
+    margin: 10px;
+}
+
+.config-btn-active {
+    margin: 10px 10px 10px 510px;
+}
+
+.wheel-canvas {
     display: block;
     margin: 10px auto;
+}
+
+.wheel-canvas:hover {
+    cursor: pointer;
 }
 
 #buttons {
@@ -54,4 +106,13 @@ body {
     /* To center horizontally */
     margin: 0 auto;
     pointer-events:all;
+}
+
+.history-checked {
+    text-decoration: line-through;
+}
+
+.history-list {
+    height: 90%;
+    overflow-y: scroll;
 }

@@ -1,0 +1,17 @@
+<section class="config-section" *ngIf="isShowingPannel()">
+    <options-table [options]="options" [wheel]="wheel" *ngIf="showConfig"></options-table>
+
+    <price-history [records]="priceHistory" *ngIf="showHistory"></price-history>
+</section>
+
+<section class="main-content">
+    <button class="config-btn btn" (click)="toggleConfigPanel()" [class.config-btn-active]="isShowingPannel()">
+        <span class="glyphicon glyphicon-cog"></span>
+    </button>
+
+    <button class="config-btn btn" (click)="toggleHistoryPanel()" [class.config-btn-active]="isShowingPannel()">
+        <span class="glyphicon glyphicon-th-list"></span>
+    </button>
+
+    <wheel [options]="options" [history]="priceHistory" [spinning]="wheelSpinning" (onWheelClicked)="onWheelClick($event);"></wheel>
+</section>

@@ -1,0 +1,8 @@
+<h3 class="config-title">Historial</h3>
+
+<ul class="history-list">
+    <li *ngFor="let record of records.reverse()" [class.history-checked]="record.checked">
+        <input type="checkbox" [checked]="record.checked" (click)="onCheckBoxClick(record)">
+        [{{ record.date | date }}] <span class="label label-primary">{{ record.username }}</span> - {{ record.price }}
+    </li>
+</ul>
