@@ -1,5 +1,8 @@
 {
-  "name": "Html5Roulette",
+  "name": "spin-the-wheel",
+  "productName": "Ruleta",
+  "author": "Vallel Blanco",
+  "description": "",
   "version": "2.0.0",
   "scripts": {
     "start": "tsc && concurrently \"npm run tsc:w\" \"npm run lite\" ",
@@ -32,8 +35,11 @@
   },
   "devDependencies": {
     "concurrently": "^2.0.0",
+    "electron": "^1.4.0",
+    "electron-packager": "^8.0.0",
     "lite-server": "^2.2.0",
     "typescript": "^1.8.10",
     "typings": "^1.0.4"
-  }
+  },
+  "main": "main.js"
 }
