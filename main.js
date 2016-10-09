@@ -6,7 +6,7 @@ let win
 
 function createWindow () {
   // Create the browser window.
-  win = new BrowserWindow({width: 800, height: 800, icon:'img/spin-icon-48.png'})
+  win = new BrowserWindow({width: 800, height: 800})
 
   // and load the index.html of the app.
   win.loadURL(`file://${__dirname}/index.html`)
